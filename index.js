@@ -211,7 +211,13 @@ const runAutomation = async ({ page, data }) => {
 
               // Check age match in paragraph innerText
               const pText = pElement.innerText || ''
-              const ageMatch = pText.includes(itemAge)
+              const userAge = Number(itemAge)
+              const ageMatch =
+                pText.includes(userAge) ||
+                pText.includes(userAge + 1) ||
+                pText.includes(userAge - 1) ||
+                pText.includes(userAge + 2) ||
+                pText.includes(userAge - 2)
               const genderMatch = pText.includes(expectedGenderText)
 
               if (ageMatch && genderMatch) {
@@ -303,11 +309,11 @@ const runAutomation = async ({ page, data }) => {
         try {
           await new Promise((r) => setTimeout(r, 500))
 
-          const days = [6, 7, 8, 9, 10]
+          const days = [22, 23, 24, 25, 26]
           const randomDay = days[Math.floor(Math.random() * days.length)]
 
           console.log(
-            `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           // 1. Click the toggle button
@@ -329,13 +335,18 @@ const runAutomation = async ({ page, data }) => {
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500)) // wait for animation
 
+          const prevMonthSelector3 =
+            'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
+
           // 3. Click the specific date
           // Randomly select a date between 13, 14, 15, 16, 17
-          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="October ${randomDay}, 2025"]`
+          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="December ${randomDay}, 2025"]`
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
-          console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
           // Wait for and click on physicalDisablilitySelected mat-select
           await new Promise((r) => setTimeout(r, 500))
@@ -605,7 +616,7 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
 
           console.log(
-            `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           await page.waitForSelector(toggleBtnSelector)
@@ -616,10 +627,12 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
-          console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
           await new Promise((r) => setTimeout(r, 500))
 
@@ -753,12 +766,12 @@ const runAutomation = async ({ page, data }) => {
             )
             if (hypertensionSpan) hypertensionSpan.click()
           })
-          console.log('✅ Clicked on "Hypertension"')
+          console.log('✅ Clicked on "Hypertension 111"')
 
           await new Promise((r) => setTimeout(r, 500))
 
           console.log(
-            `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           await page.waitForSelector(toggleBtnSelector)
@@ -769,10 +782,12 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500))
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
-          console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
           // Wait for and click on hyperTreatment mat-radio-button
           await new Promise((r) => setTimeout(r, 500))
@@ -875,7 +890,7 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
 
           console.log(
-            `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           await page.waitForSelector(toggleBtnSelector)
@@ -886,10 +901,12 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
-          console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
           // Wait for and click on diabetesTreatment mat-radio-button
           await new Promise((r) => setTimeout(r, 500))
@@ -976,7 +993,7 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
 
           console.log(
-            `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           await page.waitForSelector(toggleBtnSelector)
@@ -987,10 +1004,12 @@ const runAutomation = async ({ page, data }) => {
           await new Promise((r) => setTimeout(r, 500))
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
-          console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
           await new Promise((r) => setTimeout(r, 500))
 
@@ -1067,7 +1086,7 @@ const runAutomation = async ({ page, data }) => {
             await new Promise((r) => setTimeout(r, 500))
 
             console.log(
-              `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+              `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
             )
 
             await page.waitForSelector(toggleBtnSelector)
@@ -1078,10 +1097,12 @@ const runAutomation = async ({ page, data }) => {
             await new Promise((r) => setTimeout(r, 500))
             await page.click(prevMonthSelector2)
             await new Promise((r) => setTimeout(r, 500))
+            await page.click(prevMonthSelector3)
+            await new Promise((r) => setTimeout(r, 500))
             await page.waitForSelector(dateBtnSelector)
             await page.click(dateBtnSelector)
 
-            console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+            console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
             await new Promise((r) => setTimeout(r, 500))
 
@@ -1147,7 +1168,7 @@ const runAutomation = async ({ page, data }) => {
             await new Promise((r) => setTimeout(r, 500))
 
             console.log(
-              `✅ Date picker is active. Selecting ${randomDay}-10-2025 via UI...`
+              `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
             )
 
             await page.waitForSelector(toggleBtnSelector)
@@ -1158,10 +1179,12 @@ const runAutomation = async ({ page, data }) => {
             await new Promise((r) => setTimeout(r, 500))
             await page.click(prevMonthSelector2)
             await new Promise((r) => setTimeout(r, 500))
+            await page.click(prevMonthSelector3)
+            await new Promise((r) => setTimeout(r, 500)) // wait for animation
             await page.waitForSelector(dateBtnSelector)
             await page.click(dateBtnSelector)
 
-            console.log(`✅ Date selected via UI: ${randomDay}-10-2025`)
+            console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
 
             await new Promise((r) => setTimeout(r, 500))
 
@@ -1202,6 +1225,31 @@ const runAutomation = async ({ page, data }) => {
         }
       }
 
+      // Small buffer for DOM rendering
+      await new Promise((r) => setTimeout(r, 1000))
+
+      // Check for Patient already referred to higher facility model randomly
+      try {
+        const randomModelSelector2 =
+          'mat-dialog-container app-matdialog mat-dialog-actions button'
+        const x = await page.waitForSelector(randomModelSelector2, {
+          timeout: 2000,
+        })
+        await page.click(randomModelSelector2)
+        item.status = 'ERROR'
+        item.message =
+          'It is recommended to capture Personal History for the individual.'
+        await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+        await goHome(page)
+        continue
+      } catch (e) {
+        console.log(e.message)
+        console.log(
+          '⚠️ It is recommended to capture Personal History for the individual.',
+          e
+        )
+      }
+
       // Wait for the API call to complete and Angular to update the DOM
       try {
         await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
@@ -1211,6 +1259,669 @@ const runAutomation = async ({ page, data }) => {
 
       // Small buffer for DOM rendering
       await new Promise((r) => setTimeout(r, 1000))
+
+      // Check for "Personal Examination"
+      const isPersonalExaminationFound = await page.evaluate(() => {
+        const spans = Array.from(
+          document.querySelectorAll('div mat-card div figure figcaption span')
+        )
+        const personalExaminationSpan = spans.find(
+          (el) => el.innerText.trim() === 'Personal Examination*'
+        )
+        return !!personalExaminationSpan
+      })
+
+      if (!isPersonalExaminationFound) {
+        console.log('⚠️ Skipping: "Personal Examination*" tab not found')
+        item.status = 'ERROR'
+        item.message = 'Personal Examination* tab not found'
+        await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+        await goHome(page)
+        continue
+      }
+
+      // Check the parent figure's h5 status text for "Not Started"
+      const isPersonalExaminationNotStarted = await page.evaluate(() => {
+        const spans = Array.from(
+          document.querySelectorAll('div mat-card div figure figcaption span')
+        )
+
+        const personalExaminationSpan = spans.find(
+          (el) => el.innerText.trim() === 'Personal Examination*'
+        )
+        if (!personalExaminationSpan) return false
+
+        const figure = personalExaminationSpan.closest('figure')
+        if (!figure) return false
+
+        const h5 = figure.querySelector('h5')
+        const h5Text = (h5?.innerText || '').trim()
+        return h5Text === 'Not Started' || h5Text.includes('Not Started')
+      })
+
+      if (isPersonalExaminationNotStarted) {
+        const days = [22, 23, 24, 25, 26]
+        const randomDay = days[Math.floor(Math.random() * days.length)]
+
+        console.log('✅ Found "Personal Examination*". Clicking...')
+        await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const personalExaminationSpan = spans.find(
+            (el) => el.innerText.trim() === 'Personal Examination*'
+          )
+          if (personalExaminationSpan) personalExaminationSpan.click()
+        })
+        console.log('✅ Clicked on "Personal Examination*"')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        console.log(
+          `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
+        )
+
+        // 1. Click the toggle button
+        const toggleBtnSelector =
+          'mat-tab-body.mat-tab-body-active mat-form-field div div div mat-datepicker-toggle button'
+        await page.waitForSelector(toggleBtnSelector)
+        await page.click(toggleBtnSelector)
+        await new Promise((r) => setTimeout(r, 500))
+
+        // 2. Click "Previous month" twice
+        const prevMonthSelector1 =
+          'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
+        await page.waitForSelector(prevMonthSelector1)
+        await page.click(prevMonthSelector1)
+
+        await new Promise((r) => setTimeout(r, 500)) // wait for animation
+        const prevMonthSelector2 =
+          'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
+        await page.click(prevMonthSelector2)
+        await new Promise((r) => setTimeout(r, 500)) // wait for animation
+
+        const prevMonthSelector3 =
+          'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
+        await page.click(prevMonthSelector3)
+        await new Promise((r) => setTimeout(r, 500)) // wait for animation
+
+        // 3. Click the specific date
+        // Randomly select a date between 13, 14, 15, 16, 17
+        const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="December ${randomDay}, 2025"]`
+        await page.waitForSelector(dateBtnSelector)
+        await page.click(dateBtnSelector)
+
+        console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
+
+        // Wait for and click on physicalDisablilitySelected mat-select
+        await new Promise((r) => setTimeout(r, 500))
+
+        const heightSelector =
+          'mat-tab-body.mat-tab-body-active input[name="height"]'
+        // Pick a random height value between 140 and 165 (inclusive)
+        const randomHeight = (
+          Math.floor(Math.random() * (165 - 140 + 1)) + 140
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: heightSelector,
+          value: randomHeight,
+        })
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const weightSelector =
+          'mat-tab-body.mat-tab-body-active input[name="weight"]'
+        // Pick a random weight value between 45 and 75 (inclusive)
+        const randomWeight = (
+          Math.floor(Math.random() * (75 - 45 + 1)) + 45
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: weightSelector,
+          value: randomWeight,
+        })
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const saveButtonSelector =
+          'mat-tab-body.mat-tab-body-active mat-card button#savenexit'
+        await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+        await page.click(saveButtonSelector)
+        console.log('✅ Clicked on save button')
+
+        // Wait for the API call to complete and Angular to update the DOM
+        try {
+          await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+        } catch (e) {
+          console.log('Wait for network idle timed out (proceeding check)')
+        }
+
+        // small buffer for DOM rendering
+        await new Promise((r) => setTimeout(r, 1000))
+
+        // Check for "Personal History"
+        const isPersonalHistoryFound = await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const personalHistorySpan = spans.find(
+            (el) => el.innerText.trim() === 'Personal History'
+          )
+          return !!personalHistorySpan
+        })
+
+        if (!isPersonalHistoryFound) {
+          console.log('⚠️ Skipping: "Personal History" tab not found')
+          item.status = 'ERROR'
+          item.message = 'Personal History tab not found'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        console.log('✅ Found "Personal History". Clicking...')
+        await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const personalHistorySpan = spans.find(
+            (el) => el.innerText.trim() === 'Personal History'
+          )
+          if (personalHistorySpan) personalHistorySpan.click()
+        })
+        console.log('✅ Clicked on "Personal History"')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+        await page.click(saveButtonSelector)
+        console.log('✅ Clicked on save button')
+
+        // Wait for the API call to complete and Angular to update the DOM
+        try {
+          await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+        } catch (e) {
+          console.log('Wait for network idle timed out (proceeding check)')
+        }
+
+        // small buffer for DOM rendering
+        await new Promise((r) => setTimeout(r, 1000))
+
+        // Check for "Hypertension"
+        const isHypertensionFound = await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const hypertensionSpan = spans.find(
+            (el) => el.innerText.trim() === 'Hypertension'
+          )
+          return !!hypertensionSpan
+        })
+
+        if (!isHypertensionFound) {
+          console.log('⚠️ Skipping: "Hypertension" tab not found')
+          item.status = 'ERROR'
+          item.message = 'Hypertension tab not found'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        console.log('✅ Found "Hypertension". Clicking...')
+        await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const hypertensionSpan = spans.find(
+            (el) => el.innerText.trim() === 'Hypertension'
+          )
+          if (hypertensionSpan) hypertensionSpan.click()
+        })
+        console.log('✅ Clicked on "Hypertension"')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        console.log(
+          `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
+        )
+
+        await page.waitForSelector(toggleBtnSelector)
+        await page.click(toggleBtnSelector)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.waitForSelector(prevMonthSelector1)
+        await page.click(prevMonthSelector1)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.click(prevMonthSelector2)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.click(prevMonthSelector3)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.waitForSelector(dateBtnSelector)
+        await page.click(dateBtnSelector)
+
+        console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
+
+        // Wait for and click on hyperTreatment mat-radio-button
+        await new Promise((r) => setTimeout(r, 500))
+        const radioButtonSelector7 =
+          'mat-tab-body.mat-tab-body-active mat-radio-group[name="hyperTreatment"] mat-radio-button:nth-child(2)'
+        await page.waitForSelector(radioButtonSelector7, { timeout: 30000 })
+        await page.click(radioButtonSelector7)
+        console.log('✅ Clicked on hyperTreatment No option')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const systolicBloodPressureSelector =
+          'mat-tab-body.mat-tab-body-active input[name="systolic"]'
+        // Pick a random weight value between 100 and 120 (inclusive)
+        const randomSystolic = (
+          Math.floor(Math.random() * (120 - 100 + 1)) + 100
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: systolicBloodPressureSelector,
+          value: randomSystolic,
+        })
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const diastolicBloodPressureSelector =
+          'mat-tab-body.mat-tab-body-active input[name="diastolic"]'
+        // Pick a random weight value between 70 and 80 (inclusive)
+        const randomDiastolic = (
+          Math.floor(Math.random() * (80 - 70 + 1)) + 70
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: diastolicBloodPressureSelector,
+          value: randomDiastolic,
+        })
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+        await page.click(saveButtonSelector)
+        console.log('✅ Clicked on save button')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const confireDialogButtonSelector =
+          'mat-dialog-container app-matdialog div mat-dialog-actions div button:nth-child(1)'
+        await page.waitForSelector(confireDialogButtonSelector, {
+          timeout: 30000,
+        })
+        await page.click(confireDialogButtonSelector)
+        console.log('✅ Clicked on confirm dialog button')
+
+        // Wait for the API call to complete and Angular to update the DOM
+        try {
+          await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+        } catch (e) {
+          console.log('Wait for network idle timed out (proceeding check)')
+        }
+
+        // small buffer for DOM rendering
+        await new Promise((r) => setTimeout(r, 1000))
+
+        // Check for "Diabetes"
+        const isDiabetesFound = await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const diabetesSpan = spans.find(
+            (el) => el.innerText.trim() === 'Diabetes'
+          )
+          return !!diabetesSpan
+        })
+
+        if (!isDiabetesFound) {
+          console.log('⚠️ Skipping: "Diabetes" tab not found')
+          item.status = 'ERROR'
+          item.message = 'Diabetes tab not found'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        console.log('✅ Found "Diabetes". Clicking...')
+        await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const diabetesSpan = spans.find(
+            (el) => el.innerText.trim() === 'Diabetes'
+          )
+          if (diabetesSpan) diabetesSpan.click()
+        })
+        console.log('✅ Clicked on "Diabetes"')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        console.log(
+          `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
+        )
+
+        await page.waitForSelector(toggleBtnSelector)
+        await page.click(toggleBtnSelector)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.waitForSelector(prevMonthSelector1)
+        await page.click(prevMonthSelector1)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.click(prevMonthSelector2)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.click(prevMonthSelector3)
+        await new Promise((r) => setTimeout(r, 500)) // wait for animation
+        await page.waitForSelector(dateBtnSelector)
+        await page.click(dateBtnSelector)
+
+        console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
+
+        // Wait for and click on diabetesTreatment mat-radio-button
+        await new Promise((r) => setTimeout(r, 500))
+        const radioButtonSelector8 =
+          'mat-tab-body.mat-tab-body-active mat-radio-group[name="diabTreatment"] mat-radio-button:nth-child(2)'
+        await page.waitForSelector(radioButtonSelector8, { timeout: 30000 })
+        await page.click(radioButtonSelector8)
+        console.log('✅ Clicked on diabetesTreatment No option')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const randomBloodSugarSelector =
+          'mat-tab-body.mat-tab-body-active input[name="randomBloodGlucose"]'
+        // Pick a random weight value between 95 and 115 (inclusive)
+        const randomBloodSugar = (
+          Math.floor(Math.random() * (115 - 95 + 1)) + 95
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: randomBloodSugarSelector,
+          value: randomBloodSugar,
+        })
+        await new Promise((r) => setTimeout(r, 500))
+
+        await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+        await page.click(saveButtonSelector)
+        console.log('✅ Clicked on save button')
+
+        await new Promise((r) => setTimeout(r, 500))
+        const confireDialogButtonSelector2 =
+          'mat-dialog-container app-matdialog div mat-dialog-actions div button:nth-child(1)'
+        await page.waitForSelector(confireDialogButtonSelector2, {
+          timeout: 30000,
+        })
+        await page.click(confireDialogButtonSelector2)
+        console.log('✅ Clicked on confirm dialog button2')
+
+        // Wait for the API call to complete and Angular to update the DOM
+        try {
+          await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+        } catch (e) {
+          console.log('Wait for network idle timed out (proceeding check)')
+        }
+
+        // small buffer for DOM rendering
+        await new Promise((r) => setTimeout(r, 1000))
+
+        // Check for "Oral Cancer"
+        const isOralCancerFound = await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const oralCancerSpan = spans.find(
+            (el) => el.innerText.trim() === 'Oral Cancer'
+          )
+          return !!oralCancerSpan
+        })
+
+        if (!isOralCancerFound) {
+          console.log('⚠️ Skipping: "Oral Cancer" tab not found')
+          item.status = 'ERROR'
+          item.message = 'Oral Cancer tab not found'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        console.log('✅ Found "Oral Cancer". Clicking...')
+        await page.evaluate(() => {
+          const spans = Array.from(
+            document.querySelectorAll('div mat-card div figure figcaption span')
+          )
+          const oralCancerSpan = spans.find(
+            (el) => el.innerText.trim() === 'Oral Cancer'
+          )
+          if (oralCancerSpan) oralCancerSpan.click()
+        })
+        console.log('✅ Clicked on "Oral Cancer"')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        console.log(
+          `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
+        )
+
+        await page.waitForSelector(toggleBtnSelector)
+        await page.click(toggleBtnSelector)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.waitForSelector(prevMonthSelector1)
+        await page.click(prevMonthSelector1)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.click(prevMonthSelector2)
+        await new Promise((r) => setTimeout(r, 500))
+        await page.click(prevMonthSelector3)
+        await new Promise((r) => setTimeout(r, 500)) // wait for animation
+        await page.waitForSelector(dateBtnSelector)
+        await page.click(dateBtnSelector)
+
+        console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+        await page.click(saveButtonSelector)
+        console.log('✅ Clicked on save button')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const confireDialogButtonSelector3 =
+          'mat-dialog-container app-matdialog div mat-dialog-actions div button:nth-child(1)'
+        await page.waitForSelector(confireDialogButtonSelector3, {
+          timeout: 30000,
+        })
+        await page.click(confireDialogButtonSelector3)
+        console.log('✅ Clicked on confirm dialog button3')
+
+        // Wait for the API call to complete and Angular to update the DOM
+        try {
+          await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+        } catch (e) {
+          console.log('Wait for network idle timed out (proceeding check)')
+        }
+
+        // Small buffer for DOM rendering
+        await new Promise((r) => setTimeout(r, 1000))
+
+        if (item.gender === 'M') {
+          console.log('✅ Successfully processed item:', item.id)
+          item.status = 'COMPLETED'
+          item.message = 'Successfully processed'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        if (item.gender === 'F') {
+          // Check for "Breast Cancer"
+          const isBreastCancerFound = await page.evaluate(() => {
+            const spans = Array.from(
+              document.querySelectorAll(
+                'div mat-card div figure figcaption span'
+              )
+            )
+            const breastCancerSpan = spans.find(
+              (el) => el.innerText.trim() === 'Breast Cancer'
+            )
+            return !!breastCancerSpan
+          })
+
+          if (!isBreastCancerFound) {
+            console.log('⚠️ Skipping: "Breast Cancer" tab not found')
+            item.status = 'ERROR'
+            item.message = 'Breast Cancer tab not found'
+            await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+            await goHome(page)
+            continue
+          }
+
+          console.log('✅ Found "Breast Cancer". Clicking...')
+          await page.evaluate(() => {
+            const spans = Array.from(
+              document.querySelectorAll(
+                'div mat-card div figure figcaption span'
+              )
+            )
+            const breastCancerSpan = spans.find(
+              (el) => el.innerText.trim() === 'Breast Cancer'
+            )
+            if (breastCancerSpan) breastCancerSpan.click()
+          })
+          console.log('✅ Clicked on "Breast Cancer"')
+
+          await new Promise((r) => setTimeout(r, 500))
+
+          console.log(
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
+          )
+
+          await page.waitForSelector(toggleBtnSelector)
+          await page.click(toggleBtnSelector)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.waitForSelector(prevMonthSelector1)
+          await page.click(prevMonthSelector1)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector2)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.waitForSelector(dateBtnSelector)
+          await page.click(dateBtnSelector)
+
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
+
+          await new Promise((r) => setTimeout(r, 500))
+
+          await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+          await page.click(saveButtonSelector)
+          console.log('✅ Clicked on save button')
+
+          await new Promise((r) => setTimeout(r, 500))
+          const confireDialogButtonSelector4 =
+            'mat-dialog-container app-matdialog div mat-dialog-actions div button:nth-child(1)'
+          await page.waitForSelector(confireDialogButtonSelector4, {
+            timeout: 30000,
+          })
+          await page.click(confireDialogButtonSelector4)
+          console.log('✅ Clicked on confirm dialog button4')
+
+          // Wait for the API call to complete and Angular to update the DOM
+          try {
+            await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+          } catch (e) {
+            console.log('Wait for network idle timed out (proceeding check)')
+          }
+
+          // Small buffer for DOM rendering
+          await new Promise((r) => setTimeout(r, 500))
+
+          // Check for "Cervical Cancer"
+          const isCervicalCancerFound = await page.evaluate(() => {
+            const spans = Array.from(
+              document.querySelectorAll(
+                'div mat-card div figure figcaption span'
+              )
+            )
+            const cervicalCancerSpan = spans.find(
+              (el) => el.innerText.trim() === 'Cervical Cancer'
+            )
+            return !!cervicalCancerSpan
+          })
+
+          if (!isCervicalCancerFound) {
+            console.log('⚠️ Skipping: "Cervical Cancer" tab not found')
+            item.status = 'ERROR'
+            item.message = 'Cervical Cancer tab not found'
+            await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+            await goHome(page)
+            continue
+          }
+
+          console.log('✅ Found "Cervical Cancer". Clicking...')
+          await page.evaluate(() => {
+            const spans = Array.from(
+              document.querySelectorAll(
+                'div mat-card div figure figcaption span'
+              )
+            )
+            const cervicalCancerSpan = spans.find(
+              (el) => el.innerText.trim() === 'Cervical Cancer'
+            )
+            if (cervicalCancerSpan) cervicalCancerSpan.click()
+          })
+          console.log('✅ Clicked on "Cervical Cancer"')
+
+          await new Promise((r) => setTimeout(r, 500))
+
+          console.log(
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
+          )
+
+          await page.waitForSelector(toggleBtnSelector)
+          await page.click(toggleBtnSelector)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.waitForSelector(prevMonthSelector1)
+          await page.click(prevMonthSelector1)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector2)
+          await new Promise((r) => setTimeout(r, 500))
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
+          await page.waitForSelector(dateBtnSelector)
+          await page.click(dateBtnSelector)
+
+          console.log(`✅ Date selected via UI: ${randomDay}-12-2025`)
+
+          await new Promise((r) => setTimeout(r, 500))
+
+          await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+          await page.click(saveButtonSelector)
+          console.log('✅ Clicked on save button')
+
+          await new Promise((r) => setTimeout(r, 500))
+          const confireDialogButtonSelector5 =
+            'mat-dialog-container app-matdialog div mat-dialog-actions div button:nth-child(1)'
+          await page.waitForSelector(confireDialogButtonSelector5, {
+            timeout: 30000,
+          })
+          await page.click(confireDialogButtonSelector5)
+          console.log('✅ Clicked on confirm dialog button5')
+
+          try {
+            await page.waitForNetworkIdle({ idleTime: 1000, timeout: 30000 })
+          } catch (e) {
+            console.log('Wait for network idle timed out (proceeding check)')
+          }
+
+          // Small buffer for DOM rendering
+          await new Promise((r) => setTimeout(r, 1000))
+
+          console.log('✅ Successfully processed item:', item.id)
+          item.status = 'COMPLETED'
+          item.message = 'Successfully processed'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+      }
 
       // Check for "Hypertension"
       const isHypertensionFound = await page.evaluate(() => {
@@ -1254,6 +1965,9 @@ const runAutomation = async ({ page, data }) => {
       // Small buffer for DOM rendering
       await new Promise((r) => setTimeout(r, 1000))
 
+      const days = [22, 23, 24, 25, 26]
+      const randomDay = days[Math.floor(Math.random() * days.length)]
+
       // Check for Patient already referred to higher facility model randomly
       try {
         const randomModelSelector2 =
@@ -1274,8 +1988,6 @@ const runAutomation = async ({ page, data }) => {
         )
       }
 
-      const days = [13, 14, 15, 16, 17]
-      const randomDay = days[Math.floor(Math.random() * days.length)]
       // Handle datePicker1
       const dateSelector =
         'form div span mat-form-field div div div input[name="datePicker1"]'
@@ -1289,7 +2001,7 @@ const runAutomation = async ({ page, data }) => {
           console.log('ℹ️ Date picker is disabled. Proceeding ahead.')
         } else {
           console.log(
-            '✅ Date picker is active. Selecting 10-07-2025 via UI...'
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           // 1. Click the toggle button
@@ -1310,9 +2022,15 @@ const runAutomation = async ({ page, data }) => {
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500)) // wait for animation
 
+          const prevMonthSelector3 =
+            'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
+          console.log('============>', prevMonthSelector3)
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
+
           // 3. Click the specific date
           // Randomly select a date between 13, 14, 15, 16, 17
-          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="October ${randomDay}, 2025"]`
+          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="December ${randomDay}, 2025"]`
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
@@ -1472,7 +2190,7 @@ const runAutomation = async ({ page, data }) => {
           continue
         } else {
           console.log(
-            '✅ Date picker is active. Selecting 10-07-2025 via UI...'
+            `✅ Date picker is active. Selecting ${randomDay}-12-2025 via UI...`
           )
 
           // 1. Click the toggle button
@@ -1492,10 +2210,16 @@ const runAutomation = async ({ page, data }) => {
             'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
           await page.click(prevMonthSelector2)
           await new Promise((r) => setTimeout(r, 500)) // wait for animation
+          const prevMonthSelector3 =
+            'mat-calendar mat-calendar-header button[aria-label="Previous month"]'
+          console.log('>>>>>>>>>>>>>>>', prevMonthSelector3)
+          await page.click(prevMonthSelector3)
+          await new Promise((r) => setTimeout(r, 500)) // wait for animation
+          // wait for animation
 
           // 3. Click the specific date
           // Randomly select a date between 13, 14, 15, 16, 17
-          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="October ${randomDay}, 2025"]`
+          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="December ${randomDay}, 2025"]`
           await page.waitForSelector(dateBtnSelector)
           await page.click(dateBtnSelector)
 
