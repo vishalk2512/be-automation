@@ -12,9 +12,17 @@ import {
 import { JobContext } from './jobContext.js'
 
 const goHome = async (page) => {
-  await targetClickedBySelector({ page, target: 'nav a.logo img' })
+  console.log('Going home...')
+  await targetClickedBySelector({
+    page,
+    target: 'nav div.pull-left a.logo img',
+  })
+  console.log('Waiting for network idle and buffer...')
   await waitForNetworkIdleAndBuffer({ page })
+  console.log('Home reached')
 }
+
+const isFollowUp = true
 
 const runAutomation = async ({ page, data }) => {
   // Wait for initial page load/network activity to settle
@@ -254,6 +262,158 @@ const runAutomation = async ({ page, data }) => {
 
       // Small buffer for DOM rendering
       await new Promise((r) => setTimeout(r, 1000))
+
+      if (isFollowUp) {
+        // Check for Screening(SHC) tab
+        const isFollowupTabHere = await page.evaluate(() => {
+          const tabs = Array.from(
+            document.querySelectorAll(
+              "mat-tab-group mat-tab-header div div[role='tablist'] div div[role='tab'] div"
+            )
+          )
+          const followupTab = tabs.find(
+            (el) => el.innerText.trim() === 'Add Treatment/Follow-up'
+          )
+          return !!followupTab
+        })
+
+        if (!isFollowupTabHere) {
+          console.log('⚠️ Skipping: "Add Treatment/Follow-up" tab not found')
+          item.status = 'ERROR'
+          item.message = 'Add Treatment/Follow-up tab not found'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        console.log('✅ Found "Add Treatment/Follow-up" tab. Clicking...')
+        await page.evaluate(() => {
+          const tabs = Array.from(
+            document.querySelectorAll(
+              "mat-tab-group mat-tab-header div div[role='tablist'] div div[role='tab'] div"
+            )
+          )
+          const followupTab = tabs.find(
+            (el) => el.innerText.trim() === 'Add Treatment/Follow-up'
+          )
+          if (followupTab) followupTab.click()
+        })
+
+        try {
+          await new Promise((r) => setTimeout(r, 500))
+
+          const days = [1, 2, 3, 6, 7]
+          const randomDay = days[Math.floor(Math.random() * days.length)]
+
+          console.log(
+            `✅ Date picker is active. Selecting ${randomDay}-04-2026 via UI...`
+          )
+
+          // 1. Click the toggle button
+          const toggleBtnSelector =
+            'mat-tab-body.mat-tab-body-active mat-form-field div div div mat-datepicker-toggle button'
+          await page.waitForSelector(toggleBtnSelector)
+          await page.click(toggleBtnSelector)
+          await new Promise((r) => setTimeout(r, 500))
+
+          // Randomly select a date between 13, 14, 15, 16, 17
+          const dateBtnSelector = `mat-calendar mat-month-view table tbody tr td button[aria-label="April ${randomDay}, 2026"]`
+          await page.waitForSelector(dateBtnSelector)
+          await page.click(dateBtnSelector)
+
+          console.log(`✅ Date selected via UI: ${randomDay}-04-2026`)
+        } catch (e) {
+          console.log('Error selecting date:', e)
+          item.status = 'ERROR'
+          item.message = 'Error selecting date'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await goHome(page)
+          continue
+        }
+
+        const systolicBloodPressureSelector =
+          'mat-tab-body.mat-tab-body-active input[name="systolic"]'
+
+        const isDisabled = await page.$eval(
+          systolicBloodPressureSelector,
+          (el) => el.disabled
+        )
+
+        if (isDisabled) {
+          console.log('ℹ️ Inputs are disabled. Proceeding ahead.', item.id)
+          item.status = 'ERROR'
+          item.message = 'Inputs are disabled.'
+          await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+          await new Promise((r) => setTimeout(r, 5000))
+          await goHome(page)
+          continue
+        }
+        // Pick a random weight value between 100 and 120 (inclusive)
+        const randomSystolic = (
+          Math.floor(Math.random() * (120 - 100 + 1)) + 100
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: systolicBloodPressureSelector,
+          value: randomSystolic,
+        })
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const diastolicBloodPressureSelector =
+          'mat-tab-body.mat-tab-body-active input[name="diastolic"]'
+        // Pick a random weight value between 70 and 80 (inclusive)
+        const randomDiastolic = (
+          Math.floor(Math.random() * (80 - 70 + 1)) + 70
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: diastolicBloodPressureSelector,
+          value: randomDiastolic,
+        })
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const randomBloodSugarSelector =
+          'mat-tab-body.mat-tab-body-active input[name="randomBloodGlucose"]'
+        // Pick a random weight value between 95 and 115 (inclusive)
+        const randomBloodSugar = (
+          Math.floor(Math.random() * (115 - 95 + 1)) + 95
+        ).toString()
+        await inputTargetFilledByLocator({
+          page,
+          target: randomBloodSugarSelector,
+          value: randomBloodSugar,
+        })
+        await new Promise((r) => setTimeout(r, 500))
+
+        const attestationSelector =
+          'mat-tab-body.mat-tab-body-active mat-checkbox[name="attestation"]'
+        await page.waitForSelector(attestationSelector, { timeout: 30000 })
+        await page.click(attestationSelector)
+        console.log('✅ Clicked on attestation checkbox')
+
+        await new Promise((r) => setTimeout(r, 500))
+
+        const saveButtonSelector =
+          'mat-tab-body.mat-tab-body-active button[type="submit"]'
+        await page.waitForSelector(saveButtonSelector, { timeout: 30000 })
+        await page.click(saveButtonSelector)
+        console.log('✅ Clicked on save button')
+
+        await new Promise((r) => setTimeout(r, 3000))
+
+        //cdk-overlay-container
+        //<div class="cdk-overlay-container"><div class="cdk-global-overlay-wrapper" dir="ltr" style="justify-content: center; align-items: flex-start;"><div id="cdk-overlay-2" class="cdk-overlay-pane" style="position: static; margin-top: 0px;"><snack-bar-container class="mat-snack-bar-container ng-tns-c23-149 ng-trigger ng-trigger-state success mat-snack-bar-center mat-snack-bar-top ng-star-inserted" style="transform: scale(1); opacity: 1;"><div class="ng-tns-c23-149" aria-live="assertive"><div class="ng-tns-c23-149"><app-snackbar _nghost-qvo-c69="" class="ng-star-inserted"><div _ngcontent-qvo-c69=""><div _ngcontent-qvo-c69="" fxlayout="row" class="snack-container"><div _ngcontent-qvo-c69=""><mat-icon _ngcontent-qvo-c69="" role="img" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">done</mat-icon></div><div _ngcontent-qvo-c69="" class="pl10 success"><span _ngcontent-qvo-c69="">Treatment Saved Successfully!</span></div><span _ngcontent-qvo-c69=""><mat-icon _ngcontent-qvo-c69="" role="img" class="mat-icon notranslate cursor-pointer material-icons mat-ligature-font mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font" style="">close</mat-icon><!----></span></div><!----></div></app-snackbar><!----></div></div></snack-bar-container></div></div></div>
+
+        console.log('✅ Successfully processed item:', item.id)
+        item.status = 'COMPLETED'
+        item.message = 'Successfully processed'
+        await fs.writeFile('./data.json', JSON.stringify(data, null, 2))
+        await new Promise((r) => setTimeout(r, 5000))
+        await goHome(page)
+        continue
+      }
 
       // Check for Screening(SHC) tab
       const isScreeningTabHere = await page.evaluate(() => {
